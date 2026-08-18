@@ -14,4 +14,3 @@ if (!parsedEnv.success) {
 const config = parsedEnv.data;
 
 export default config;
-export type AppConfig = typeof config;
