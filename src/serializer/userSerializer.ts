@@ -1,6 +1,6 @@
-import { serialize } from "../common/helper/serializer";
-import { UserResponse } from "../dto";
-import { User } from "../entitites";
+import { serialize } from '../common/helper/serializer';
+import { UserResponse } from '../dto';
+import { User } from '../entitites';
 
 export class UserSerializer {
     static serialize(user: User): UserResponse {

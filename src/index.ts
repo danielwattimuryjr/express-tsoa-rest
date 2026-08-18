@@ -12,9 +12,7 @@ async function main() {
         await AppDataSource.initialize();
 
         app.listen(config.PORT, config.HOST, () => {
-            console.info(
-                `App is running on http://${config.HOST}:${config.PORT}`,
-            );
+            console.info(`App is running on http://${config.HOST}:${config.PORT}`);
         });
     } catch (error) {
         console.error('Failed to start application:', error);

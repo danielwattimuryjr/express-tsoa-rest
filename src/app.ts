@@ -1,6 +1,6 @@
 import compression from 'compression';
 import cors from 'cors';
-import express, { type Express } from "express";
+import express, { type Express } from 'express';
 import { xss } from 'express-xss-sanitizer';
 import helmet from 'helmet';
 import router from './routes/v1';

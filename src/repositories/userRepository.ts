@@ -1,6 +1,6 @@
-import { Repository } from "typeorm";
-import { AppDataSource } from "../config/typeorm";
-import { User } from "../entitites";
+import { Repository } from 'typeorm';
+import { AppDataSource } from '../config/typeorm';
+import { User } from '../entitites';
 
 class UserRepositoryClass extends Repository<User> {
     constructor() {
@@ -15,8 +15,8 @@ class UserRepositoryClass extends Repository<User> {
                 firstName: true,
                 lastName: true,
                 email: true,
-                username: true
-            }
+                username: true,
+            },
         });
     }
 }

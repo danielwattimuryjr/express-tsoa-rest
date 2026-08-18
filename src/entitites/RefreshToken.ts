@@ -13,7 +13,6 @@ import { User } from './User';
     name: 'refresh_tokens',
 })
 export class RefreshToken {
-
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -31,5 +30,4 @@ export class RefreshToken {
 
     @CreateDateColumn()
     createdAt: Date;
-
 }

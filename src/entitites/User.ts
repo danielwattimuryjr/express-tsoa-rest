@@ -10,7 +10,6 @@ import {
 import { Role } from './Role';
 import { RefreshToken } from './RefreshToken';
 
-
 @Entity({
     schema: 'auth',
     name: 'users',

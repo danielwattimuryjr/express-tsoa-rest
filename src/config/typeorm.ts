@@ -1,6 +1,6 @@
-import { DataSource } from "typeorm";
-import config from "./config";
-import { RefreshToken, Role, User } from "../entitites";
+import { DataSource } from 'typeorm';
+import config from './config';
+import { RefreshToken, Role, User } from '../entitites';
 
 export const AppDataSource = new DataSource({
     type: 'postgres',

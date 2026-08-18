@@ -1,9 +1,6 @@
-import { ClassConstructor, plainToInstance } from "class-transformer";
+import { ClassConstructor, plainToInstance } from 'class-transformer';
 
-export function serialize<T, V>(
-    cls: ClassConstructor<V>,
-    data: T,
-): V {
+export function serialize<T, V>(cls: ClassConstructor<V>, data: T): V {
     return plainToInstance(cls, data, {
         excludeExtraneousValues: true,
     });
