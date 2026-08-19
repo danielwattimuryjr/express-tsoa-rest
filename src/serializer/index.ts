@@ -5,3 +5,5 @@ export function serialize<T, V>(cls: ClassConstructor<V>, data: T): V {
         excludeExtraneousValues: true,
     });
 }
+
+export * from './userSerializer';

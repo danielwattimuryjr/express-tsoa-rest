@@ -1,4 +1,4 @@
-import { serialize } from '../common/helper/serializer';
+import { serialize } from '.';
 import { UserResponse } from '../dto';
 import { User } from '../entitites';
 

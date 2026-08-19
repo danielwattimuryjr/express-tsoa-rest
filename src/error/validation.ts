@@ -1,24 +1,41 @@
 import { StatusCodes } from 'http-status-codes';
-import type z from 'zod';
+import type { z } from 'zod';
+
+export interface ValidationErrorData {
+    field: string;
+    message: string;
+}
 
 export class ValidationError extends Error {
     static readonly errorName = 'ValidationError';
     static readonly code = StatusCodes.UNPROCESSABLE_ENTITY;
 
     name = ValidationError.errorName;
-    code: StatusCodes;
-    data: z.core.$ZodIssue[];
+    code = ValidationError.code;
+    data: ValidationErrorData[];
 
-    constructor(message: string, data: z.core.$ZodIssue[]) {
+    constructor(message = 'Validation failed', issues: z.core.$ZodIssue[] = []) {
         super(message);
-        this.code = ValidationError.code;
-        this.data = data;
+
+        this.data = issues.map((issue) => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+        }));
+
+        Object.setPrototypeOf(this, ValidationError.prototype);
     }
 
-    static isError(err: unknown): err is ValidationError {
-        if (err && err instanceof Error) {
-            return err.name === ValidationError.errorName;
-        }
-        return false;
+    static fromTsoa(fields: Record<string, { message?: string }>) {
+        const issues: z.core.$ZodIssue[] = Object.entries(fields).map(([field, entry]) => ({
+            code: 'custom',
+            path: [field],
+            message: entry?.message ?? 'Invalid value',
+        }));
+
+        return new ValidationError('Request validation failed', issues);
+    }
+
+    static isError(error: unknown): error is ValidationError {
+        return error instanceof Error && error.name === ValidationError.errorName;
     }
 }

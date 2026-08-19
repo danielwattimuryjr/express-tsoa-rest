@@ -3,8 +3,9 @@ import cors from 'cors';
 import express, { type Express } from 'express';
 import { xss } from 'express-xss-sanitizer';
 import helmet from 'helmet';
-import router from './routes/v1';
 import { errorHandler, notFoundHandler } from './middleware';
+import { RegisterRoutes } from './routes/routes';
+import { RegisterSwagger } from './config/swagger';
 
 const app: Express = express();
 
@@ -19,7 +20,8 @@ app.use(compression());
 
 app.use(cors());
 
-app.use('/api/v1', router);
+RegisterRoutes(app);
+RegisterSwagger(app);
 app.use('*fallback', notFoundHandler);
 app.use(errorHandler);
 

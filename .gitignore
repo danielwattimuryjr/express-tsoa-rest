@@ -54,4 +54,5 @@ Thumbs.db
 *.swo
 *~
 
-Express Rest
+# TSOA generated routes
+src/routes/routes.ts
