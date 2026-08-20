@@ -6,6 +6,8 @@ import helmet from 'helmet';
 import { errorHandler, notFoundHandler } from './middleware';
 import { RegisterRoutes } from './routes/routes';
 import { RegisterSwagger } from './config/swagger';
+import passport from 'passport';
+import { jwtStrategy } from './config/passport';
 
 const app: Express = express();
 
@@ -19,6 +21,8 @@ app.use(xss());
 app.use(compression());
 
 app.use(cors());
+
+passport.use(jwtStrategy);
 
 RegisterRoutes(app);
 RegisterSwagger(app);

@@ -146,9 +146,77 @@
 			},
 			"UserRequestType": {
 				"$ref": "#/components/schemas/infer_typeofUserRequest_"
+			},
+			"LoginResponse": {
+				"properties": {
+					"email": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"accessToken": {
+						"type": "string"
+					},
+					"refreshToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"username",
+					"accessToken",
+					"refreshToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HttpResponse_LoginResponse_": {
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/LoginResponse"
+					},
+					"code": {
+						"$ref": "#/components/schemas/StatusCodes"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"data",
+					"code",
+					"message"
+				],
+				"type": "object"
+			},
+			"infer_typeofLoginRequest_": {
+				"properties": {
+					"password": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"password",
+					"email"
+				],
+				"type": "object"
+			},
+			"LoginRequestType": {
+				"$ref": "#/components/schemas/infer_typeofLoginRequest_"
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
 	},
 	"info": {
 		"title": "express-tsoa-rest",
@@ -203,7 +271,11 @@
 						}
 					}
 				},
-				"security": [],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
 				"parameters": [
 					{
 						"in": "path",
@@ -215,6 +287,35 @@
 						}
 					}
 				]
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_LoginResponse_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginRequestType"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
