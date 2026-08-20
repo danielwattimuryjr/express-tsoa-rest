@@ -1,10 +1,10 @@
-import { NotFoundError, UnauthorizedError } from '../error';
+import { NotFoundError, UnauthorizedError } from '../common/error';
 import { UserRepository } from '../repositories';
 import bcrypt from 'bcrypt';
 import { JwtService } from './jwtService';
 import { LoginRequest } from '../dto';
 import { RefreshTokenRepository } from '../repositories/refreshTokenRepository';
-import { AppDataSource } from '../config/typeorm';
+import { AppDataSource } from '../config/database';
 import { RefreshToken } from '../entitites';
 import { EntityManager } from 'typeorm';
 

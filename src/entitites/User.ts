@@ -60,7 +60,7 @@ export class User {
         },
         inverseJoinColumn: {
             name: 'role_id',
-            referencedColumnName: 'id',
+            referencedColumnName: 'name',
         },
     })
     roles: Relation<Role[]>;

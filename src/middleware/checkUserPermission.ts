@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import passport from 'passport';
-import { ForbiddenError, UnauthorizedError } from '../error';
-import { RoleEnum } from '../common/enum/RoleEnum';
+import { ForbiddenError, UnauthorizedError } from '../common/error';
+import { RoleEnum } from '../common/enum';
 import { PermissionEnum } from '../common/enum/PermissionEnum';
 
 export type AuthorizationPolicy =
@@ -55,11 +55,11 @@ export const checkUserPermissionMiddleware = (policy: AuthorizationPolicy): Requ
             }
 
             if (policy.type === 'role') {
-                const userRoleIds = new Set(user.roles.map((role) => role.id));
+                const userRoleNames = new Set(user.roles.map((role) => role.name));
                 const hasRole =
                     policy.mode === 'all'
-                        ? policy.values.every((roleId) => userRoleIds.has(roleId))
-                        : policy.values.some((roleId) => userRoleIds.has(roleId));
+                        ? policy.values.every((roleId) => userRoleNames.has(roleId))
+                        : policy.values.some((roleId) => userRoleNames.has(roleId));
 
                 if (!hasRole) {
                     return next(new ForbiddenError());

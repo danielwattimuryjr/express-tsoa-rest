@@ -6,7 +6,7 @@ import { UserService } from '../../services';
 import { UserSerializer } from '../../serializer';
 import { userSchema } from '../../schema/user.schema';
 import { Body, ValidateBody } from '../../decorator';
-import { RoleEnum } from '../../common/enum/RoleEnum';
+import { RoleEnum } from '../../common/enum';
 import { Authorize } from '../../decorator/authorize';
 
 @Route('users')

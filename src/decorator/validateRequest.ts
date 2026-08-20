@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import type { ZodType } from 'zod';
-import { ValidationError } from '../error';
+import { ValidationError } from '../common/error';
 
 export function ValidateBody(validationSchema: ZodType) {
     return function (target: object, propertyKey: string | symbol, descriptor: PropertyDescriptor) {

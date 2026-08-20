@@ -1,28 +1,15 @@
-import {
-    Column,
-    Entity,
-    JoinTable,
-    ManyToMany,
-    PrimaryGeneratedColumn,
-    type Relation,
-} from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn, type Relation } from 'typeorm';
 import { User } from './User';
 import { Permission } from './Permission';
+import { RoleEnum } from '../common/enum';
 
 @Entity({
     schema: 'auth',
     name: 'roles',
 })
 export class Role {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column({
-        type: 'varchar',
-        length: 20,
-        unique: true,
-    })
-    name: string;
+    @PrimaryColumn('varchar')
+    name: RoleEnum;
 
     @Column({
         type: 'varchar',
@@ -39,11 +26,11 @@ export class Role {
         schema: 'auth',
         joinColumn: {
             name: 'role_id',
-            referencedColumnName: 'id',
+            referencedColumnName: 'name',
         },
         inverseJoinColumn: {
             name: 'permission_id',
-            referencedColumnName: 'id',
+            referencedColumnName: 'name',
         },
     })
     permissions: Permission[];

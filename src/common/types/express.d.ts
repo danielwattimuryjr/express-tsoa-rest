@@ -8,7 +8,6 @@ declare global {
             username: string;
             roles: {
                 name: string;
-                id: number;
                 permissions: {
                     name: string;
                 }[];

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
 import config from '../config/config';
-import { UnauthorizedError } from '../error';
+import { UnauthorizedError } from '../common/error';
 
 interface TokenPayload {
     sub: string;

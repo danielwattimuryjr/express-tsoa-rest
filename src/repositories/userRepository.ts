@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { AppDataSource } from '../config/typeorm';
+import { AppDataSource } from '../config/database';
 import { User } from '../entitites';
 
 class UserRepositoryClass extends Repository<User> {
@@ -38,11 +38,9 @@ class UserRepositoryClass extends Repository<User> {
                 username: true,
 
                 roles: {
-                    id: true,
                     name: true,
 
                     permissions: {
-                        id: true,
                         name: true,
                     },
                 },

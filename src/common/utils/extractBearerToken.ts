@@ -1,4 +1,4 @@
-import { UnauthorizedError } from '../../error';
+import { UnauthorizedError } from '../error';
 
 export function extractBearerToken(authorization: string): string {
     const [scheme, token] = authorization.split(' ');

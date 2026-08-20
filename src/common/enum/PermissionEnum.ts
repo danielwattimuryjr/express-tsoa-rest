@@ -1,11 +1,11 @@
 export enum PermissionEnum {
-    ManageUser = 'user:manage',
-    CreateUser = 'user:create',
-    UpdateUser = 'user:update',
-    DeleteUser = 'user:delete',
+    USER_READ = 'user.read',
+    USER_CREATE = 'user.create',
+    USER_UPDATE = 'user.update',
+    USER_DELETE = 'user.delete',
 
-    ManageBooking = 'booking:manage',
-    CreateBooking = 'booking:create',
-    UpdateBooking = 'booking:update',
-    CancelBooking = 'booking:cancel',
+    BOOKING_READ = 'booking.read',
+    BOOKING_CREATE = 'booking.create',
+    BOOKING_UPDATE = 'booking.update',
+    BOOKING_CANCEL = 'booking.cancel',
 }

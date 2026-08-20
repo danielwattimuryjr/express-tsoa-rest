@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ValidateError as TsoaValidateError } from 'tsoa';
 import type { HttpResponse } from '../common/types/http';
-import { ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } from '../error';
+import { ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } from '../common/error';
 
 export function errorHandler(err: Error, _req: Request, res: Response, next: NextFunction): void {
     const response: HttpResponse<unknown> = {

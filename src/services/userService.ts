@@ -1,7 +1,7 @@
-import { NotFoundError } from '../error';
+import { NotFoundError } from '../common/error';
 import { UserRepository } from '../repositories';
 import bcrypt from 'bcrypt';
-import { RoleEnum } from '../common/enum/RoleEnum';
+import { RoleEnum } from '../common/enum';
 import { UserRequest } from '../dto';
 
 export class UserService {
@@ -24,7 +24,7 @@ export class UserService {
             username: request.username,
             roles: [
                 {
-                    id: RoleEnum.USER,
+                    name: RoleEnum.USER,
                 },
             ],
         });

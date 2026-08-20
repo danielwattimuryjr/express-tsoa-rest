@@ -2,8 +2,8 @@ import 'reflect-metadata';
 
 import app from './app';
 import config from './config/config';
-import { pool } from './config/postgres';
-import { AppDataSource } from './config/typeorm';
+import { pool } from './config/database';
+import { AppDataSource } from './config/database';
 
 async function main() {
     try {

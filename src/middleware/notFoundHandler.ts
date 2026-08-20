@@ -1,5 +1,5 @@
 import type { RequestHandler } from 'express';
-import { NotFoundError } from '../error';
+import { NotFoundError } from '../common/error';
 
 // @ts-ignore
 export const notFoundHandler: RequestHandler = (req, res, next) => {
