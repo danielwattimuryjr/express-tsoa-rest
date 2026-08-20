@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
 import config from '../config/config';
+import { UnauthorizedError } from '../error';
 
 interface TokenPayload {
     sub: string;
@@ -63,54 +64,55 @@ export class JwtService {
     static verifyAccessToken(token: string): AccessTokenPayload {
         const payload = this.verify(token, config.JWT_SECRET);
 
-        if (payload.type !== 'access') {
-            throw new Error('Invalid access token');
+        if (
+            typeof payload.sub !== 'string' ||
+            payload.type !== 'access' ||
+            typeof payload.iat !== 'number' ||
+            typeof payload.exp !== 'number'
+        ) {
+            throw new UnauthorizedError();
         }
 
-        return payload as AccessTokenPayload;
+        return {
+            sub: payload.sub,
+            type: 'access',
+            iat: payload.iat,
+            exp: payload.exp,
+        };
     }
 
     static verifyRefreshToken(token: string): RefreshTokenPayload {
         const payload = this.verify(token, config.JWT_SECRET);
 
-        if (payload.type !== 'refresh') {
-            throw new Error('Invalid refresh token');
+        if (
+            payload.sub === undefined ||
+            typeof payload.sub !== 'string' ||
+            payload.type !== 'refresh' ||
+            typeof payload.iat !== 'number' ||
+            typeof payload.exp !== 'number' ||
+            typeof payload.jti !== 'string'
+        ) {
+            throw new UnauthorizedError();
         }
 
-        if (!('jti' in payload)) {
-            throw new Error('Refresh token is missing jti');
-        }
-
-        return payload as RefreshTokenPayload;
+        return {
+            sub: payload.sub,
+            type: 'refresh',
+            iat: payload.iat,
+            exp: payload.exp,
+            jti: payload.jti,
+        };
     }
 
-    private static verify(token: string, secret: string): TokenPayload {
+    private static verify(token: string, secret: string): jwt.JwtPayload {
         const payload = jwt.verify(token, secret, {
             algorithms: ['HS256'],
         });
 
         if (typeof payload === 'string') {
-            throw new Error('Invalid token payload');
+            throw new UnauthorizedError();
         }
 
-        if (
-            typeof payload.sub !== 'string' ||
-            typeof payload.type !== 'string' ||
-            typeof payload.iat !== 'number' ||
-            typeof payload.exp !== 'number'
-        ) {
-            throw new Error('Invalid token payload');
-        }
-
-        if (payload.type !== 'access' && payload.type !== 'refresh') {
-            throw new Error('Invalid token type');
-        }
-
-        return {
-            sub: payload.sub,
-            type: payload.type,
-            iat: payload.iat,
-            exp: payload.exp,
-        };
+        return payload;
     }
 }

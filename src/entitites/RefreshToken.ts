@@ -25,14 +25,19 @@ export class RefreshToken {
     })
     jti: string;
 
-    @Column({ type: 'varchar' })
-    token: string;
+    @Column({ type: 'varchar', name: 'token_hash' })
+    tokenHash: string;
 
-    @Column('timestamp without time zone')
+    @Column({ type: 'timestamp without time zone', name: 'expires_at' })
     expiresAt: Date;
 
-    @Column({ type: 'boolean' })
-    revoked: boolean;
+    @Column({
+        type: 'timestamp without time zone',
+        name: 'revoked_at',
+        nullable: true,
+        default: null,
+    })
+    revokedAt: Date;
 
     @CreateDateColumn()
     createdAt: Date;

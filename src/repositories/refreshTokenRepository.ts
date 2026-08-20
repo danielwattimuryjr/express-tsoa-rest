@@ -7,13 +7,15 @@ class RefreshTokenRepositoryClass extends Repository<RefreshToken> {
         super(RefreshToken, AppDataSource.manager);
     }
 
-    async findById(id: number) {
+    async findByJtiAndUser(jti: string, userId: number) {
         return this.findOne({
-            where: { id },
+            where: { jti, user: { id: userId } },
             select: {
                 id: true,
+                tokenHash: true,
+                jti: true,
                 expiresAt: true,
-                revoked: true,
+                revokedAt: true,
             },
         });
     }

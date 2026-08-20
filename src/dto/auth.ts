@@ -2,13 +2,7 @@ import { Expose } from 'class-transformer';
 import z from 'zod';
 import { loginSchema } from '../schema';
 
-export class LoginResponse {
-    @Expose()
-    email: number;
-
-    @Expose()
-    username: string;
-
+export class AuthResponse {
     @Expose()
     accessToken: string;
 

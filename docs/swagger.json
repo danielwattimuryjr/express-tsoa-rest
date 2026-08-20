@@ -118,7 +118,7 @@
 				],
 				"type": "object"
 			},
-			"infer_typeofUserRequest_": {
+			"infer_typeofuserSchema_": {
 				"properties": {
 					"lastName": {
 						"type": "string"
@@ -144,18 +144,11 @@
 				],
 				"type": "object"
 			},
-			"UserRequestType": {
-				"$ref": "#/components/schemas/infer_typeofUserRequest_"
+			"UserRequest": {
+				"$ref": "#/components/schemas/infer_typeofuserSchema_"
 			},
-			"LoginResponse": {
+			"AuthResponse": {
 				"properties": {
-					"email": {
-						"type": "number",
-						"format": "double"
-					},
-					"username": {
-						"type": "string"
-					},
 					"accessToken": {
 						"type": "string"
 					},
@@ -164,18 +157,16 @@
 					}
 				},
 				"required": [
-					"email",
-					"username",
 					"accessToken",
 					"refreshToken"
 				],
 				"type": "object",
 				"additionalProperties": false
 			},
-			"HttpResponse_LoginResponse_": {
+			"HttpResponse_AuthResponse_": {
 				"properties": {
 					"data": {
-						"$ref": "#/components/schemas/LoginResponse"
+						"$ref": "#/components/schemas/AuthResponse"
 					},
 					"code": {
 						"$ref": "#/components/schemas/StatusCodes"
@@ -191,7 +182,7 @@
 				],
 				"type": "object"
 			},
-			"infer_typeofLoginRequest_": {
+			"infer_typeofloginSchema_": {
 				"properties": {
 					"password": {
 						"type": "string"
@@ -206,8 +197,8 @@
 				],
 				"type": "object"
 			},
-			"LoginRequestType": {
-				"$ref": "#/components/schemas/infer_typeofLoginRequest_"
+			"LoginRequest": {
+				"$ref": "#/components/schemas/infer_typeofloginSchema_"
 			}
 		},
 		"securitySchemes": {
@@ -249,7 +240,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/UserRequestType"
+								"$ref": "#/components/schemas/UserRequest"
 							}
 						}
 					}
@@ -298,7 +289,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"$ref": "#/components/schemas/HttpResponse_LoginResponse_"
+									"$ref": "#/components/schemas/HttpResponse_AuthResponse_"
 								}
 							}
 						}
@@ -311,11 +302,39 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/LoginRequestType"
+								"$ref": "#/components/schemas/LoginRequest"
 							}
 						}
 					}
 				}
+			}
+		},
+		"/auth/refresh": {
+			"post": {
+				"operationId": "Refresh",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HttpResponse_AuthResponse_"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "header",
+						"name": "X-Refresh-Token",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
 			}
 		}
 	},

@@ -1,13 +1,8 @@
 import { serialize } from '.';
-import { LoginResponse } from '../dto/auth';
-import { User } from '../entitites';
+import { AuthResponse } from '../dto/auth';
 
 export class AuthSerializer {
-    static serialize(raw: {
-        user: User;
-        accessToken: string;
-        refreshToken: string;
-    }): LoginResponse {
-        return serialize(LoginResponse, raw);
+    static serialize(raw: { accessToken: string; refreshToken: string }): AuthResponse {
+        return serialize(AuthResponse, raw);
     }
 }
