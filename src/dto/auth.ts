@@ -1,4 +1,6 @@
 import { Expose } from 'class-transformer';
+import z from 'zod';
+import { loginSchema } from '../schema';
 
 export class LoginResponse {
     @Expose()
@@ -13,3 +15,5 @@ export class LoginResponse {
     @Expose()
     refreshToken: string;
 }
+
+export type LoginRequest = z.infer<typeof loginSchema>;

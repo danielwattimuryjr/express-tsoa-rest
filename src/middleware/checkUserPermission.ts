@@ -2,10 +2,11 @@ import { NextFunction, Request, RequestHandler, Response } from 'express';
 import passport from 'passport';
 import { ForbiddenError, UnauthorizedError } from '../error';
 import { RoleEnum } from '../common/enum/RoleEnum';
+import { PermissionEnum } from '../common/enum/PermissionEnum';
 
-type AuthorizationPolicy =
+export type AuthorizationPolicy =
     | RoleAuthorizationPolicy
-    // | PermissionAuthorizationPolicy
+    | PermissionAuthorizationPolicy
     | {
           type: 'authenticated';
       }
@@ -17,10 +18,9 @@ type RoleAuthorizationPolicy = {
     mode?: 'any' | 'all';
 };
 
-// @ts-ignore
 type PermissionAuthorizationPolicy = {
     type: 'permission';
-    values: string[];
+    values: PermissionEnum[];
     mode?: 'any' | 'all';
 };
 
@@ -54,15 +54,32 @@ export const checkUserPermissionMiddleware = (policy: AuthorizationPolicy): Requ
                 return next();
             }
 
-            const userRoleIds = new Set(user.roles.map((role) => role.id));
+            if (policy.type === 'role') {
+                const userRoleIds = new Set(user.roles.map((role) => role.id));
+                const hasRole =
+                    policy.mode === 'all'
+                        ? policy.values.every((roleId) => userRoleIds.has(roleId))
+                        : policy.values.some((roleId) => userRoleIds.has(roleId));
 
-            const hasRole =
-                policy.mode === 'all'
-                    ? policy.values.every((roleId) => userRoleIds.has(roleId))
-                    : policy.values.some((roleId) => userRoleIds.has(roleId));
+                if (!hasRole) {
+                    return next(new ForbiddenError());
+                }
+            }
 
-            if (!hasRole) {
-                return next(new ForbiddenError());
+            if (policy.type === 'permission') {
+                const userPermissions = new Set(
+                    user.roles.flatMap((role) =>
+                        role.permissions.map((permission) => permission.name),
+                    ),
+                );
+                const hasPermission =
+                    policy.mode === 'all'
+                        ? policy.values.every((permissionId) => userPermissions.has(permissionId))
+                        : policy.values.some((permissionId) => userPermissions.has(permissionId));
+
+                if (!hasPermission) {
+                    return next(new ForbiddenError());
+                }
             }
 
             return next();

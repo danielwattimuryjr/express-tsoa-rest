@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import config from './config';
-import { RefreshToken, Role, User } from '../entitites';
+import { Permission, RefreshToken, Role, User } from '../entitites';
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
     password: config.POSTGRES_PASSWORD,
     synchronize: false,
     logging: true,
-    entities: [User, Role, RefreshToken],
+    entities: [User, Role, RefreshToken, Permission],
     subscribers: [],
     migrations: [],
     cache: {

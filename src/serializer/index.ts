@@ -7,3 +7,4 @@ export function serialize<T, V>(cls: ClassConstructor<V>, data: T): V {
 }
 
 export * from './userSerializer';
+export * from './authSerializer';

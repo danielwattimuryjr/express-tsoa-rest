@@ -1,19 +1,19 @@
-import { Controller, Get, Middlewares, Path, Post, Route, Security } from 'tsoa';
-import { UserResponse } from '../../dto';
+import { Controller, Get, Path, Post, Route, Security } from 'tsoa';
+import { UserRequest, UserResponse } from '../../dto';
 import { HttpResponse } from '../../common/types/http';
 import { StatusCodes } from 'http-status-codes';
 import { UserService } from '../../services';
 import { UserSerializer } from '../../serializer';
-import { UserRequest, UserRequestType } from '../../schema/user.schema';
+import { userSchema } from '../../schema/user.schema';
 import { Body, ValidateBody } from '../../decorator';
-import { checkUserPermissionMiddleware } from '../../middleware/checkUserPermission';
 import { RoleEnum } from '../../common/enum/RoleEnum';
+import { Authorize } from '../../decorator/authorize';
 
 @Route('users')
 export class UserController extends Controller {
     @Post('')
-    @ValidateBody(UserRequest)
-    public async createUser(@Body() request: UserRequestType): Promise<HttpResponse<UserResponse>> {
+    @ValidateBody(userSchema)
+    public async createUser(@Body() request: UserRequest): Promise<HttpResponse<UserResponse>> {
         const user = await UserService.createUser(request);
 
         this.setStatus(StatusCodes.CREATED);
@@ -26,12 +26,10 @@ export class UserController extends Controller {
 
     @Get('{userId}')
     @Security('bearerAuth')
-    @Middlewares(
-        checkUserPermissionMiddleware({
-            type: 'role',
-            values: [RoleEnum.ADMIN],
-        }),
-    )
+    @Authorize({
+        type: 'role',
+        values: [RoleEnum.ADMIN],
+    })
     public async getUser(@Path() userId: number): Promise<HttpResponse<UserResponse>> {
         const user = await UserService.getOne(userId);
 

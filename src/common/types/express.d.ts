@@ -9,6 +9,9 @@ declare global {
             roles: {
                 name: string;
                 id: number;
+                permissions: {
+                    name: string;
+                }[];
             }[];
         }
     }

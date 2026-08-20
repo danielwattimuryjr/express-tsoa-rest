@@ -1,17 +1,17 @@
 import { Controller, Post, Route } from 'tsoa';
 import { Body, ValidateBody } from '../../decorator';
-import { LoginRequest, LoginRequestType } from '../../schema/auth.schema';
 import { HttpResponse } from '../../common/types/http';
-import { LoginResponse } from '../../dto/auth';
-import { AuthService } from '../../services/authService';
+import { LoginRequest, LoginResponse } from '../../dto/auth';
 import { StatusCodes } from 'http-status-codes';
-import { AuthSerializer } from '../../serializer/authSerializer';
+import { AuthSerializer } from '../../serializer';
+import { AuthService } from '../../services';
+import { loginSchema } from '../../schema';
 
 @Route('auth')
 export class AuthController extends Controller {
     @Post('login')
-    @ValidateBody(LoginRequest)
-    public async login(@Body() body: LoginRequestType): Promise<HttpResponse<LoginResponse>> {
+    @ValidateBody(loginSchema)
+    public async login(@Body() body: LoginRequest): Promise<HttpResponse<LoginResponse>> {
         const data = await AuthService.login(body);
 
         return {

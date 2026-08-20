@@ -20,21 +20,31 @@ class UserRepositoryClass extends Repository<User> {
         });
     }
 
-    async findByIdWithRoles(id: number) {
+    async findByIdWithAuthorization(id: number) {
         return this.findOne({
             where: { id },
+
             relations: {
-                roles: true,
+                roles: {
+                    permissions: true,
+                },
             },
+
             select: {
                 id: true,
                 firstName: true,
                 lastName: true,
                 email: true,
                 username: true,
+
                 roles: {
-                    name: true,
                     id: true,
+                    name: true,
+
+                    permissions: {
+                        id: true,
+                        name: true,
+                    },
                 },
             },
         });

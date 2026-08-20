@@ -1,11 +1,11 @@
 import { NotFoundError, UnauthorizedError } from '../error';
 import { UserRepository } from '../repositories';
-import { LoginRequestType } from '../schema/auth.schema';
 import bcrypt from 'bcrypt';
 import { JwtService } from './jwtService';
+import { LoginRequest } from '../dto';
 
 export class AuthService {
-    static async login(body: LoginRequestType) {
+    static async login(body: LoginRequest) {
         const user = await UserRepository.findOneByEmail(body.email);
         if (!user) throw new NotFoundError('User not found');
         const userId = user.id.toString();

@@ -1,8 +1,8 @@
 import { NotFoundError } from '../error';
 import { UserRepository } from '../repositories';
 import bcrypt from 'bcrypt';
-import { UserRequestType } from '../schema/user.schema';
 import { RoleEnum } from '../common/enum/RoleEnum';
+import { UserRequest } from '../dto';
 
 export class UserService {
     static async getOne(userId: number) {
@@ -13,7 +13,7 @@ export class UserService {
         return user;
     }
 
-    static async createUser(request: UserRequestType) {
+    static async createUser(request: UserRequest) {
         const hashedPassword = await bcrypt.hash(request.password, 12);
 
         const userInstance = UserRepository.create({

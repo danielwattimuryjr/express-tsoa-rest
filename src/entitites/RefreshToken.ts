@@ -19,6 +19,12 @@ export class RefreshToken {
     @ManyToOne(() => User, (user) => user.refreshTokens)
     user: Relation<User>;
 
+    @Column({
+        type: 'uuid',
+        unique: true,
+    })
+    jti: string;
+
     @Column({ type: 'varchar' })
     token: string;
 
