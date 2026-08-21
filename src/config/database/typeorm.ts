@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
 import config from '../config';
 import { Permission, RefreshToken, Role, User } from '../../entitites';
+import { TypeOrmWinstonLogger } from '../logger';
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
@@ -10,7 +11,8 @@ export const AppDataSource = new DataSource({
     username: config.POSTGRES_USER,
     password: config.POSTGRES_PASSWORD,
     synchronize: false,
-    logging: true,
+    logging: ['query', 'error', 'warn'],
+    logger: new TypeOrmWinstonLogger(),
     entities: [User, Role, RefreshToken, Permission],
     subscribers: [],
     migrations: [],

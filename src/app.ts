@@ -8,8 +8,13 @@ import { RegisterRoutes } from './routes/routes';
 import { RegisterSwagger } from './config/swagger';
 import passport from 'passport';
 import { jwtStrategy } from './config/passport';
+import { requestContextMiddleware } from './middleware/requestContext';
+import { httpLogger } from './middleware/httpLogger';
 
 const app: Express = express();
+
+app.use(requestContextMiddleware);
+app.use(httpLogger);
 
 app.use(helmet());
 

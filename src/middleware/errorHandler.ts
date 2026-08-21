@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { ValidateError as TsoaValidateError } from 'tsoa';
 import type { HttpResponse } from '../common/types/http';
 import { ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } from '../common/error';
+import { logger } from '../config/logger';
 
 export function errorHandler(err: Error, _req: Request, res: Response, next: NextFunction): void {
     const response: HttpResponse<unknown> = {
@@ -30,7 +31,9 @@ export function errorHandler(err: Error, _req: Request, res: Response, next: Nex
         response.code = err.code;
     } else {
         response.message = 'Unknown error';
-        console.log(err.stack);
+        logger.error(err.message, {
+            stack: err.stack,
+        });
     }
 
     if (!response.data) {

@@ -1,13 +1,15 @@
 import dotenv from 'dotenv';
 import { envSchema } from '../schema/env.schema';
+import { logger } from './logger';
 
 dotenv.config();
 
 const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
-    console.error('Environment validation failed:');
-    console.error(JSON.stringify(parsedEnv.error.format(), null, 2));
+    logger.error('Environment validation failed:', {
+        stack: JSON.stringify(parsedEnv.error.format(), null, 2),
+    });
     process.exit(1);
 }
 

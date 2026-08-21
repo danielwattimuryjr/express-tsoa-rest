@@ -19,6 +19,9 @@ export const envSchema = z.object({
         .pipe(z.number().int().min(1).max(65535)),
     POSTGRES_DB: z.string().min(1, 'POSTGRES_DB is required'),
 
+    LOG_LEVEL: z.string().optional(),
+    LOG_DIR: z.string().optional(),
+
     REDIS_PASSWORD: z.string().min(1, 'REDIS_PASSWORD is required'),
     REDIS_HOST: z.string().min(1, 'REDIS_HOST is required'),
     REDIS_PORT: z

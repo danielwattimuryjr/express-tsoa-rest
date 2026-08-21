@@ -1,3 +1,4 @@
+import { logger } from '../../logger';
 import { AppDataSource } from '../typeorm';
 import { clearTablesData } from './clearTablesData';
 import { seedPermissions } from './permissionSeeder';
@@ -8,7 +9,7 @@ async function seed() {
     await AppDataSource.initialize();
 
     try {
-        console.log('🌱 Seeding database...');
+        logger.debug('🌱 Seeding database...');
 
         await clearTablesData();
 
@@ -16,10 +17,10 @@ async function seed() {
         await seedRoles();
         await seedRolePermissions();
 
-        console.log('✅ Database seeded successfully');
+        logger.debug('✅ Database seeded successfully');
     } catch (error) {
-        console.error('❌ Database seeding failed');
-        console.error(error);
+        logger.error('❌ Database seeding failed');
+        logger.error(error);
 
         process.exitCode = 1;
     } finally {
